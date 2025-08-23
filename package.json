@@ -1,0 +1,12 @@
+{
+  "name": "national-prize-bonds-database",
+  "version": "0.0.1",
+  "description": "National Prize Bonds Draw Database",
+  "license": "MIT",
+  "author": "",
+  "type": "commonjs",
+  "main": "null.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  }
+}
