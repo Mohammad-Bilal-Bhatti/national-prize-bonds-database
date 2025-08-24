@@ -19,19 +19,26 @@ async function main() {
     const rawFiles = await listDirectory(dirPath);
 
     for (const rawFile of rawFiles) {
-        console.log(`Reading raw file: ${rawFile}`);
+        const sourcePath = path.join(dirPath, rawFile);
+        const destinationDir = path.join(__dirname, '..', 'json', amount)
 
-        const source = fs.createReadStream(path.join(dirPath, rawFile));
-        const destination = path.join(__dirname, '..', 'json', amount);
-        if (!fs.existsSync(destination)) {
-            console.log(`Created Directory ${destination}`);
-            fs.mkdirSync(destination, { recursive: true });
+        if (!fs.existsSync(destinationDir)) {
+            console.log(`Created Directory ${destinationDir}`);
+            fs.mkdirSync(destinationDir, { recursive: true });
         }
 
-        const outputJson = await parseRawToJson(source);
-
         const jsonFileName = rawFile.replace(path.extname(rawFile), '.json');
-        fs.writeFileSync(path.join(destination, jsonFileName), JSON.stringify(outputJson, null, 2));
+        const destinationPath = path.join(destinationDir, jsonFileName);
+
+        if (fs.existsSync(destinationPath)) {
+            console.log(`JSON file ${jsonFileName} already exists. Skipping parsing.`);
+            continue;
+        }
+
+        const sourceStream = fs.createReadStream(sourcePath);
+        const outputJson = await parseRawToJson(sourceStream);
+        fs.writeFileSync(destinationPath, JSON.stringify(outputJson, null, 2));
+
         console.log(`Wrote JSON file: ${jsonFileName} with ${outputJson.length} records.`);
     }
 
@@ -46,7 +53,6 @@ const PrizeEnum = Object.freeze({
 async function parseRawToJson(readStream) {
     const drawWinners = [];
 
-    console.log('Trying to read file content.');
     const rl = readline.createInterface({
         input: readStream,
         crlfDelay: Infinity,
