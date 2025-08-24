@@ -1,15 +1,17 @@
 
-
 fetch:
-	@echo "Fetching data... ${amount}"
-	@# Add your fetch commands here
+	@echo "Calling fetch with amount: ${amount}"
+	@node scripts/fetch.js ${amount}
 
 parse-json:
-	@echo "Parsing JSON data... ${amount}"
-	@# Add your JSON parsing commands here
+	@echo "Calling parse with amount: ${amount}"
+	@node scripts/parse-json.js ${amount}
 
 clean:
-	@echo "Cleaning up..."
-	@# Add your clean commands here
+	@echo "Cleaning up raw files"
+	@rm -rf ./raw
+
+	@echo "Cleaning up json files"
+	@rm -rf ./json
 
 .PHONY: fetch parse-json clean
