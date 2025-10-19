@@ -35,7 +35,7 @@ async function main() {
     console.log(`# Draw Results for ${amount} Winners`);
     console.log('Folloiwing are the available draw results. Click on "view" to see the raw text file or the parsed JSON file.');
     console.log('\n');
-    printMarkdownTable(rows);
+    printMarkdownTable(rows.reverse());
 }
 
 main();
