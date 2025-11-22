@@ -2,7 +2,12 @@
 
 # Docker configuration
 DOCKER_IMAGE := national-prize-bonds
-DOCKER_RUN := docker run --rm -v "$$(pwd):/app" $(DOCKER_IMAGE)
+DOCKER_RUN := docker run --rm \
+	-v "$$(pwd)/scripts:/app/scripts" \
+	-v "$$(pwd)/raw:/app/raw" \
+	-v "$$(pwd)/json:/app/json" \
+	-v "$$(pwd)/draws:/app/draws" \
+	$(DOCKER_IMAGE)
 
 help: ## Show this help message
 	@echo "Available commands:"
