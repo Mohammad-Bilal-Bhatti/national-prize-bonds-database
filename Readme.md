@@ -15,6 +15,10 @@ Use following table to navigate to each sub-category of draw.
 | 1500   | [View All](draws/1500.md) |
 
 
+## Requirements
+In order to run following command you need to have UNIX cli interface, make utility and nodejs installed already on your system.
+
+
 ## Commands
 Following are the list of commands that are used to fetch, format, and make table of the fetched draws.
 
