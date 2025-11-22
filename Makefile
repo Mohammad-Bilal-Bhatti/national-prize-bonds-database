@@ -35,13 +35,9 @@ sync-all: ## Sync all amounts (100, 200, 750, 1500)
 
 sync: ## Fetch, parse, and generate table for specified amount (usage: make sync amount=750)
 	@echo "Syncing prize bond data for amount: ${amount}"
-	@echo "Step 1/3: Fetching data..."
-	@$(DOCKER_RUN) node scripts/fetch.js ${amount}
-	@echo "Step 2/3: Parsing JSON..."
-	@$(DOCKER_RUN) node scripts/parse-json.js ${amount}
-	@echo "Step 3/3: Generating table..."
-	@mkdir -p draws
-	@$(DOCKER_RUN) node scripts/table.js ${amount} > ./draws/${amount}.md
+	@$(MAKE) fetch amount=${amount}
+	@$(MAKE) parse-json amount=${amount}
+	@$(MAKE) table amount=${amount}
 	@echo "✓ Complete! Output saved to ./draws/${amount}.md"
 
 fetch: ## Fetch prize bond data for specified amount (usage: make fetch amount=750)
