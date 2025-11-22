@@ -22,6 +22,19 @@ In order to run following command you need to have UNIX cli interface, make util
 ## Commands
 Following are the list of commands that are used to fetch, format, and make table of the fetched draws.
 
+### Quick Start (Recommended)
+```bash
+# Sync all amounts (100, 200, 750, 1500) - fetches, parses, and generates tables
+make sync-all
+
+# Or sync a specific amount
+make sync amount=100
+make sync amount=200
+make sync amount=750
+make sync amount=1500
+```
+
+### Individual Commands
 ```bash
 # Fetch Draws
 make fetch amount=100
@@ -48,6 +61,21 @@ make clean
 ## Working
 
 Scripts are designed to pull and scrap data from national saving website, process and store data in the respective directories.
+
+## Sync Job
+
+The `sync` command is a convenient wrapper that runs fetch, parse-json, and table commands in sequence for a specified amount.
+
+### Sync All
+- Executes the complete sync process for all amounts (100, 200, 750, 1500)
+- Fetches latest draw data from the website
+- Parses the data into JSON format
+- Generates markdown tables for all amounts
+
+### Sync Single Amount
+- Executes the complete sync process for a specific amount
+- Runs fetch → parse-json → table pipeline
+- Outputs the final table to `./draws/{amount}.md`
 
 ## Fetch Job
 
