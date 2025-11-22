@@ -14,6 +14,7 @@ help: ## Show this help message
 	@echo ""
 	@echo "  help           Show this help message"
 	@echo "  build          Build the Docker image"
+	@echo "  sync-all       Sync all amounts (100, 200, 750, 1500)"
 	@echo "  sync           Fetch, parse, and generate table for specified amount (usage: make sync amount=750)"
 	@echo "  fetch          Fetch prize bond data for specified amount (usage: make fetch amount=750)"
 	@echo "  parse-json     Parse JSON data for specified amount (usage: make parse-json amount=750)"
@@ -23,6 +24,14 @@ help: ## Show this help message
 build: ## Build the Docker image
 	@echo "Building Docker image..."
 	@docker build -t $(DOCKER_IMAGE) .
+
+sync-all: ## Sync all amounts (100, 200, 750, 1500)
+	@echo "Syncing all prize bond amounts..."
+	@$(MAKE) sync amount=100
+	@$(MAKE) sync amount=200
+	@$(MAKE) sync amount=750
+	@$(MAKE) sync amount=1500
+	@echo "✓ All amounts synced successfully!"
 
 sync: ## Fetch, parse, and generate table for specified amount (usage: make sync amount=750)
 	@echo "Syncing prize bond data for amount: ${amount}"
@@ -59,4 +68,4 @@ clean: ## Clean up all generated files (raw, json, draws)
 	@rm -rf ./draws
 
 
-.PHONY: help build sync fetch parse-json table clean
+.PHONY: help build sync-all sync fetch parse-json table clean
