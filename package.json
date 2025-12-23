@@ -7,7 +7,9 @@
   "type": "commonjs",
   "main": "null.js",
   "scripts": {
-    "start": "node scripts/fetch.js",
+    "fetch": "node scripts/fetch.js",
+    "json": "node scripts/parse-json.js",
+    "table": "node scripts/table.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "dependencies": {
