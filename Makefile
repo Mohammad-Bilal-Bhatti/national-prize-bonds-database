@@ -18,6 +18,7 @@ DOCKER_RUN := docker run --rm \
 	-v "$(CURRENT_DIR)/scripts:/app/scripts" \
 	-v "$(CURRENT_DIR)/raw:/app/raw" \
 	-v "$(CURRENT_DIR)/json:/app/json" \
+	-v "$(CURRENT_DIR)/csv:/app/csv" \
 	-v "$(CURRENT_DIR)/draws:/app/draws" \
 	$(DOCKER_IMAGE)
 
@@ -29,8 +30,9 @@ help: ## Show this help message
 	@echo   sync           Fetch, parse, and generate table for specified amount (usage: make sync amount=750)
 	@echo   fetch          Fetch prize bond data for specified amount (usage: make fetch amount=750)
 	@echo   parse-json     Parse JSON data for specified amount (usage: make parse-json amount=750)
+	@echo   parse-csv      Parse CSV data for specified amount (usage: make parse-csv amount=750)
 	@echo   table          Generate markdown table for specified amount (usage: make table amount=750)
-	@echo   clean          Clean up all generated files (raw, json, draws)
+	@echo   clean          Clean up all generated files (raw, json, csv, draws)
 
 build: ## Build the Docker image
 	@echo Building Docker image...
@@ -48,6 +50,7 @@ sync: ## Fetch, parse, and generate table for specified amount (usage: make sync
 	@echo Syncing prize bond data for amount: $(amount)
 	@$(MAKE) fetch amount=$(amount)
 	@$(MAKE) parse-json amount=$(amount)
+	@$(MAKE) parse-csv amount=$(amount)
 	@$(MAKE) table amount=$(amount)
 	@echo [OK] Complete! Output saved to ./draws/$(amount).md
 
@@ -59,17 +62,23 @@ parse-json: ## Parse JSON data for specified amount (usage: make parse-json amou
 	@echo Calling parse with amount: $(amount)
 	@$(DOCKER_RUN) node scripts/parse-json.js $(amount)
 
+parse-csv: ## Parse CSV data for specified amount (usage: make parse-csv amount=750)
+	@echo Calling parse-csv with amount: $(amount)
+	@$(DOCKER_RUN) node scripts/parse-csv.js $(amount)
+
 table: ## Generate markdown table for specified amount (usage: make table amount=750)
 	@echo Calling table with amount: $(amount)
 	@$(call MKDIR_P,draws)
 	@$(DOCKER_RUN) node scripts/table.js $(amount) > ./draws/$(amount).md
 
-clean: ## Clean up all generated files (raw, json, draws)
+clean: ## Clean up all generated files (raw, json, csv, draws)
 	@echo Cleaning up raw files
 	@$(call RM_RECURSIVE,raw)
 	@echo Cleaning up json files
 	@$(call RM_RECURSIVE,json)
+	@echo Cleaning up csv files
+	@$(call RM_RECURSIVE,csv)
 	@echo Cleaning up draws files
 	@$(call RM_RECURSIVE,draws)
 
-.PHONY: help build sync-all sync fetch parse-json table clean
+.PHONY: help build sync-all sync fetch parse-json parse-csv table clean

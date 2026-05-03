@@ -21,19 +21,21 @@ async function main() {
         const date = rawFile.replace('.txt', '');
         const rawFilePath = `[view](/raw/${amount}/${date}.txt)`;
         const jsonFilePath = `[view](/json/${amount}/${date}.json)`;
+        const csvFilePath = `[view](/csv/${amount}/${date}.csv)`;
 
         rows.push({
             Date: date,
             Amount: amount,
             Raw: rawFilePath,
             Json: jsonFilePath,
+            Csv: csvFilePath,
         });
 
     }
 
     console.log('\n');
     console.log(`# Draw Results for ${amount} Winners`);
-    console.log('Folloiwing are the available draw results. Click on "view" to see the raw text file or the parsed JSON file.');
+    console.log('Folloiwing are the available draw results. Click on "view" to see the raw text file, the parsed JSON file, or the CSV file.');
     console.log('\n');
     printMarkdownTable(rows.reverse());
 }
